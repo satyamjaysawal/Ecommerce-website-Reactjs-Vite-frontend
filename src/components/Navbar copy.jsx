@@ -12,19 +12,14 @@ import {
   Smartphone,
   UserPlus,
   KeyRound,
-  Search,
-  BarChart,         // Sale Analytics Icon
-  Monitor,          // Dashboard Icon
-  Package,
-  Home,
-  PlusSquare
+  Search
 } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -36,14 +31,14 @@ const Navbar = () => {
 
   useEffect(() => setMenuOpen(false), [location]);
 
-  // const handleSearchSubmit = useCallback((e) => {
-  //   e.preventDefault();
-  //   if (searchQuery.trim()) {
-  //     navigate(`/products?search=${searchQuery}`);
-  //   }
-  // }, [searchQuery, navigate]);
+  const handleSearchSubmit = useCallback((e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${searchQuery}`);
+    }
+  }, [searchQuery, navigate]);
 
-  // const handleSearchChange = (e) => setSearchQuery(e.target.value);
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
   return (
     <nav className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ${scrolled ? 'bg-gray-900/85 backdrop-blur-lg shadow-lg' : 'bg-gray-900/60'}`}>
@@ -56,11 +51,6 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6 text-sm">
-          <Link to="/" className="nav-link group">
-            <Home className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
-            <span className="ml-1">Home</span>
-            <span className="nav-link-underline" />
-          </Link>
           <Link to="/products" className="nav-link group">
             <ShoppingBag className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
             <span className="ml-1">Products</span>
@@ -69,46 +59,15 @@ const Navbar = () => {
 
           {/* No Role Restriction for these links */}
           <Link to="/dashboard" className="nav-link group">
-            <Monitor className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
             <span className="ml-1">Dashboard</span>
             <span className="nav-link-underline" />
           </Link>
 
           <Link to="/sale-analytics" className="nav-link group">
-            <BarChart className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
             <span className="ml-1">Sale Analytics</span>
             <span className="nav-link-underline" />
           </Link>
-          {user?.role === 'admin' && (
-            <>
-              <Link to="/admin-analysis" className="nav-link group">
-                <Package className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
-                <span className="ml-1">Product Analysis +</span>
-                <span className="nav-link-underline" />
-              </Link>
 
-              {/* New All Orders Manage Button */}
-              <Link to="/orders-all" className="nav-link group">
-                <ShoppingBag className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
-                <span className="ml-1">All Orders Manage</span>
-                <span className="nav-link-underline" />
-              </Link>
-            </>
-          )}
-
-          {user?.role === 'vendor' && (
-            <>
-              <Link to="/add-product" className="nav-link group">
-                <PlusSquare className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
-                <span className="ml-1">Product Add +</span>
-                <span className="nav-link-underline" />
-              </Link>
-              {/* <Link to="/vendor/orders" className="nav-link group">
-                <span className="ml-1">Your Orders</span>
-                <span className="nav-link-underline" />
-              </Link> */}
-            </>
-          )}
           {user?.role === 'customer' && (
             <>
               <Link to="/cart" className="nav-link group">
@@ -116,7 +75,7 @@ const Navbar = () => {
                 <span className="ml-1">Cart</span>
                 <span className="nav-link-underline" />
               </Link>
-
+              
               <Link to="/orders" className="nav-link group">
                 <ShoppingBag className="w-5 h-5 group-hover:text-teal-400 transition-colors duration-300" />
                 <span className="ml-1">Orders</span>
@@ -133,7 +92,7 @@ const Navbar = () => {
         </div>
 
         {/* Search Bar */}
-        {/* <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center">
+        <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center">
           <div className="relative group">
             <input 
               type="text" 
@@ -150,7 +109,7 @@ const Navbar = () => {
               <Search className="w-5 h-5" />
             </button>
           </div>
-        </form> */}
+        </form>
 
         {/* User Actions */}
         <div className="hidden md:flex items-center space-x-4">
@@ -168,7 +127,7 @@ const Navbar = () => {
                     {user.username}
                   </span>
                 </Link>
-                <button
+                <button 
                   onClick={logout}
                   className="bg-red-500/80 hover:bg-red-600 px-4 py-2 rounded-lg text-white
                     transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-red-500/20"
@@ -180,7 +139,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex items-center space-x-3">
-              <Link
+              <Link 
                 to="/login"
                 className="flex items-center space-x-1 bg-teal-500/80 hover:bg-teal-600 px-4 py-2 
                   rounded-lg text-white transition-all duration-300 transform 
@@ -189,8 +148,8 @@ const Navbar = () => {
                 <User className="w-4 h-4" />
                 <span>Login</span>
               </Link>
-
-              <Link
+              
+              <Link 
                 to="/register"
                 className="flex items-center space-x-1 bg-blue-500/80 hover:bg-blue-600 px-4 py-2 
                   rounded-lg text-white transition-all duration-300 transform 
@@ -202,8 +161,8 @@ const Navbar = () => {
             </div>
           )}
 
-          <a
-            // href="/"
+          <a 
+            href="/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-1 bg-purple-500/80 hover:bg-purple-600 px-4 py-2 
@@ -231,14 +190,14 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div
+      <div 
         className={`md:hidden absolute top-full left-0 w-full bg-gray-900/95 backdrop-blur-lg
           transform transition-all duration-300 ease-in-out border-t border-gray-800
           ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
       >
         <div className="p-4 space-y-4">
           {/* Mobile Search */}
-          {/* <form onSubmit={handleSearchSubmit} className="relative">
+          <form onSubmit={handleSearchSubmit} className="relative">
             <input 
               type="text"
               placeholder="Search products..."
@@ -256,74 +215,60 @@ const Navbar = () => {
             >
               <Search className="w-5 h-5" />
             </button>
-          </form> */}
+          </form>
 
           {/* Mobile Navigation Links */}
-
           <div className="space-y-3">
-            <Link to="/" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-              <Home className="w-5 h-5" />
-              <span>Home</span>
-            </Link>
-
-            <Link to="/products" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
+            <Link 
+              to="/products"
+              className="flex items-center space-x-2 text-gray-300 hover:text-teal-400
+                transition-colors duration-300 py-2"
+            >
               <ShoppingBag className="w-5 h-5" />
               <span>Products</span>
             </Link>
-
-            <Link to="/dashboard" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-              <Monitor className="w-5 h-5" />
-              <span>Dashboard</span>
+            {/* No Role Restriction */}
+            <Link to="/dashboard" className="nav-link group">
+              <span className="ml-1">Dashboard</span>
+              <span className="nav-link-underline" />
             </Link>
 
-            <Link to="/sale-analytics" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-              <BarChart className="w-5 h-5" />
-              <span>Sale Analytics</span>
+            <Link to="/sale-analytics" className="nav-link group">
+              <span className="ml-1">Sale Analytics</span>
+              <span className="nav-link-underline" />
             </Link>
-
-            {user?.role === 'admin' && (
-              <>
-                <Link to="/admin-analysis" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-                  <Package className="w-5 h-5" />
-                  <span>Product Analysis +</span>
-                </Link>
-
-                {/* New All Orders Manage Button */}
-                <Link to="/orders-all" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-                  <ShoppingBag className="w-5 h-5" />
-                  <span>All Orders Manage</span>
-                </Link>
-              </>
-            )}
-
-
-            {user?.role === 'vendor' && (
-              <Link to="/add-product" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
-                <PlusSquare className="w-5 h-5" />
-                <span>Product Add +</span>
-              </Link>
-            )}
 
             {user?.role === 'customer' && (
               <>
-                <Link to="/cart" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
+                <Link 
+                  to="/cart"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-teal-400
+                    transition-colors duration-300 py-2"
+                >
                   <ShoppingCart className="w-5 h-5" />
                   <span>Cart</span>
                 </Link>
 
-                <Link to="/orders" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
+                <Link 
+                  to="/orders"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-teal-400
+                    transition-colors duration-300 py-2"
+                >
                   <ShoppingBag className="w-5 h-5" />
                   <span>Orders</span>
                 </Link>
 
-                <Link to="/wishlist" className="flex items-center space-x-2 text-gray-300 hover:text-teal-400 transition-colors duration-300 py-2">
+                <Link 
+                  to="/wishlist"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-teal-400
+                    transition-colors duration-300 py-2"
+                >
                   <Heart className="w-5 h-5" />
                   <span>Wishlist</span>
                 </Link>
               </>
             )}
           </div>
-
 
           {/* Mobile User Actions */}
           <div className="space-y-3 pt-3 border-t border-gray-800">
@@ -333,7 +278,7 @@ const Navbar = () => {
                   <span className="text-xs text-gray-400">Logged in as</span>
                   <span className="block text-sm text-white">{user.username}</span>
                 </div>
-                <button
+                <button 
                   onClick={() => {
                     logout();
                     setMenuOpen(false);
@@ -346,7 +291,7 @@ const Navbar = () => {
               </>
             ) : (
               <div className="space-y-2">
-                <Link
+                <Link 
                   to="/login"
                   className="flex items-center justify-center space-x-2 bg-teal-500/80
                     hover:bg-teal-600 w-full px-4 py-2 rounded-lg text-white
@@ -356,7 +301,7 @@ const Navbar = () => {
                   <span>Login</span>
                 </Link>
 
-                <Link
+                <Link 
                   to="/register"
                   className="flex items-center justify-center space-x-2 bg-blue-500/80
                     hover:bg-blue-600 w-full px-4 py-2 rounded-lg text-white
@@ -368,7 +313,7 @@ const Navbar = () => {
               </div>
             )}
 
-            <a
+            <a 
               href="#"
               target="_blank"
               rel="noopener noreferrer"
