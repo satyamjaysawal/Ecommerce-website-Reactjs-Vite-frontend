@@ -106,10 +106,10 @@ To run this project locally, follow the steps below:
    Example `.env` file:
    ```
    DATABASE_URL=postgresql://user:password@localhost/ecommerce_db
-  # DATABASE_URL=postgresql://xxxxxxxxxxxxxxxxxxxxxxxxxxxx?sslmode=require
-  # FRONTEND_URL=https://ecommerce-website-reactjs-vite-frontend.onrender.com
-  FRONTEND_URL=http://localhost:5173
-  PORT=8080
+   DATABASE_URL=postgresql://xxxxxxxxxxxxxxxxxxxxxxxxxxxx?sslmode=require
+   FRONTEND_URL=https://ecommerce-website-reactjs-vite-frontend.onrender.com
+   FRONTEND_URL=http://localhost:5173
+   PORT=8080
    RAZORPAY_API_KEY=your_razorpay_api_key
    ```
 
